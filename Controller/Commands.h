@@ -174,12 +174,10 @@ namespace Controller {
                 view.showSuccess("Added rectangle to slide " + std::to_string(slideIndex_));
             }
             else if (shapeType_ == "circle") {
-                // For circle, width is used as radius
                 slide->addShape(std::make_unique<Model::Circle>(x_, y_, width_, color_, text_));
                 view.showSuccess("Added circle to slide " + std::to_string(slideIndex_));
             }
             else if (shapeType_ == "triangle") {
-                // For triangle, use x,y as first point, width/height to calculate other points
                 int x2 = x_ + width_;
                 int y2 = y_;
                 int x3 = x_ + width_ / 2;
