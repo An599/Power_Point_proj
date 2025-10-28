@@ -4,8 +4,6 @@
 #include <vector>
 
 namespace View {
-
-    // View Facade - doesn't know about Model or Controller
     class ViewFacade {
     private:
         ViewFacade() = default;
@@ -90,4 +88,4 @@ namespace View {
         }
     };
 
-} // namespace View
+} 
