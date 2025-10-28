@@ -7,8 +7,6 @@
 #include <memory>
 
 namespace Controller {
-
-    // Controller knows about both Model and View
     class Controller {
     private:
         Parser parser_;
@@ -43,7 +41,6 @@ namespace Controller {
         void processInput(const std::string& input) {
             auto& view = View::ViewFacade::getInstance();
 
-            // Parser does syntax analysis
             Parser::ParseResult parseResult = parser_.parse(input);
 
             if (!parseResult.syntaxValid) {
@@ -54,11 +51,8 @@ namespace Controller {
             if (parseResult.tokens.empty()) {
                 return;
             }
-
-            // Get command name
             const std::string& commandName = parseResult.tokens[0];
 
-            // Get factory from registry
             auto& registry = CommandRegistry::getInstance();
             ICommandFactory* factory = registry.getFactory(commandName);
 
@@ -66,13 +60,10 @@ namespace Controller {
                 view.showWarning("Unknown command: " + commandName);
                 return;
             }
-
-            // Factory creates the command
             try {
                 std::unique_ptr<ICommand> command = factory->createCommand(parseResult.tokens);
 
                 if (command) {
-                    // Execute command
                     command->execute();
                 }
             }
@@ -82,4 +73,4 @@ namespace Controller {
         }
     };
 
-} // namespace Controller
+} 
