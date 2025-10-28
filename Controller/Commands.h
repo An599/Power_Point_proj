@@ -9,8 +9,6 @@
 #include <vector>
 
 namespace Controller {
-
-    // Commands know about Model and View
     class CreatePresentationCommand : public ICommand {
         std::string title_;
 
@@ -239,4 +237,4 @@ namespace Controller {
         }
     };
 
-} // namespace Controller
+} 
