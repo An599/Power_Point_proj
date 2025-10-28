@@ -5,8 +5,6 @@
 #include <string>
 
 namespace Controller {
-
-    // Singleton Command Registry
     class CommandRegistry {
     private:
         std::unordered_map<std::string, std::unique_ptr<ICommandFactory>> factories_;
@@ -39,4 +37,4 @@ namespace Controller {
         }
     };
 
-} // namespace Controller
+} 
