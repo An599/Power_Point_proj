@@ -5,9 +5,6 @@
 #include <cctype>
 
 namespace Controller {
-
-    // Concrete Factories know about Model
-
     class CreatePresentationFactory : public ICommandFactory {
     public:
         std::unique_ptr<ICommand> createCommand(const std::vector<std::string>& args) override {
@@ -179,4 +176,4 @@ namespace Controller {
         }
     };
 
-} // namespace Controller
+} 
