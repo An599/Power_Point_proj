@@ -1,18 +1,15 @@
 #pragma once
-#include "Model/Presentation.h"
+#include "Presentation.h"
 #include <memory>
 
 namespace Model {
 
-    // Singleton Model - doesn't know about View or Controller
     class Model {
     private:
         std::unique_ptr<Presentation> presentation_;
 
-        // Private constructor for Singleton
         Model() : presentation_(nullptr) {}
 
-        // Delete copy constructor and assignment operator
         Model(const Model&) = delete;
         Model& operator=(const Model&) = delete;
 
@@ -43,4 +40,4 @@ namespace Model {
         }
     };
 
-} // namespace Model
+} 

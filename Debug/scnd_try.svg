@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">
+  <rect x="0" y="0" width="800" height="600" fill="white" stroke="gray" stroke-width="1"/>
+  <text x="20" y="40" font-family="Arial" font-size="24" fill="black">second_try</text>
+  <text x="20" y="80" font-family="Arial" font-size="18" fill="blue">Slide 0: fst_sld</text>
+  <polygon points="10,10 30,10 30,25 10,25" fill="none" stroke="red" stroke-width="2" />
+  <ellipse cx="14" cy="14" rx="4" ry="4" fill="none" stroke="blue" stroke-width="2" />
+  <ellipse cx="14" cy="14" rx="4" ry="4" fill="none" stroke="blue" stroke-width="2" />
+  <line x1="10" y1="320" x2="790" y2="320" stroke="lightgray" stroke-width="1" stroke-dasharray="5,5" />
+  <text x="20" y="330" font-family="Arial" font-size="18" fill="blue">Slide 1: at_zro_pos</text>
+  <text x="40" y="360" font-family="Arial" font-size="12" fill="gray">(No shapes on this slide)</text>
+</svg>

@@ -4,6 +4,7 @@
 #include <string>
 #include <fstream>
 #include <stdexcept>
+#include <iostream>
 #include "Slide.h"
 
 namespace Model {
@@ -18,9 +19,14 @@ namespace Model {
         }
 
         void addSlide(std::unique_ptr<Slide> slide, size_t position = static_cast<size_t>(-1)) {
-            if (position == static_cast<size_t>(-1) || position > slides_.size()) {
-                if (position > slides_.size())
-                    std::cout << "[WARNING] Given invalid position. Slide added at the end of presentation. You can use -remove_slide to delete it" << std::endl;
+            size_t defaultPos = static_cast<size_t>(-1);
+            if (position == defaultPos) {
+                // Default: add at the end
+                slides_.push_back(std::move(slide));
+            }
+            else if (position > slides_.size()) {
+                // Invalid position: warn and add at the end
+                std::cout << "[WARNING] Given invalid position. Slide added at the end of presentation. You can use -remove_slide to delete it" << std::endl;
                 slides_.push_back(std::move(slide));
             }
             else {
@@ -83,7 +89,7 @@ namespace Model {
 
             while (std::getline(in, line)) {
                 if (line.rfind("SLIDE ", 0) == 0) {
-                    slides_.push_back(std::make_unique<Slide>(line.substr(6)));
+                    slides_.push_back(std::make_unique<Slide>());
                 }
             }
         }
@@ -92,4 +98,4 @@ namespace Model {
         void setTitle(const std::string& title) { title_ = title; }
     };
 
-} // namespace Model
+} 

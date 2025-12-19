@@ -1,5 +1,5 @@
 #pragma once
-#include "Model/IShape.h"
+#include "IShape.h"
 #include <sstream>
 
 namespace Model {
@@ -106,4 +106,4 @@ namespace Model {
         }
     };
 
-} // namespace Model
+} 

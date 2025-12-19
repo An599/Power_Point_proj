@@ -76,6 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -90,6 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -104,6 +106,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -118,6 +121,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,23 +131,52 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Controller\CommandUnRe.h" />
     <ClCompile Include="PP_Oct25.cpp" />
+    <ClCompile Include="Visualization\SVG\SVGFactory.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Application\IAction.h" />
+    <ClInclude Include="Application\Actions.h" />
+    <ClInclude Include="Application\Application.h" />
+    <ClInclude Include="Application\Editor.h" />
     <ClInclude Include="Controller\CommandFactories.h" />
+    <ClInclude Include="Controller\CommandHistory.h" />
     <ClInclude Include="Controller\Commands.h" />
     <ClInclude Include="Controller\CommandRegistry.h" />
     <ClInclude Include="Controller\Controller.h" />
-    <ClInclude Include="Controller\Parser.h" />
     <ClInclude Include="Controller\ICommand.h" />
     <ClInclude Include="Controller\ICommandFactory.h" />
+    <ClInclude Include="Controller\Parser.h" />
+    <ClInclude Include="Controller\RenderCommand.h" />
+    <ClInclude Include="Model\BoundingBox.h" />
     <ClInclude Include="Model\IShape.h" />
     <ClInclude Include="Model\Model.h" />
-    <ClInclude Include="Model\Rectangle.h" />
     <ClInclude Include="Model\Presentation.h" />
+    <ClInclude Include="Model\Rectangle.h" />
     <ClInclude Include="Model\Shapes.h" />
     <ClInclude Include="Model\Slide.h" />
+    <ClInclude Include="Model\TextShape.h" />
+    <ClInclude Include="Painting\Brush.h" />
+    <ClInclude Include="Painting\IPainter.h" />
+    <ClInclude Include="Painting\Pen.h" />
+    <ClInclude Include="Painting\SVGCanvas.h" />
+    <ClInclude Include="Painting\TransformedPainter.h" />
+    <ClInclude Include="Painting\SVGPainter.h" />
+    <ClInclude Include="Serialization\IDeserialize.h" />
+    <ClInclude Include="Serialization\ISerialize.h" />
+    <ClInclude Include="Serialization\JsonDeserialize.h" />
+    <ClInclude Include="Serialization\JsonSerialize.h" />
     <ClInclude Include="Viewer\View.h" />
+    <ClInclude Include="Visualization\IBrush.h" />
+    <ClInclude Include="Visualization\ICanvas.h" />
+    <ClInclude Include="Visualization\IRenderer.h" />
+    <ClInclude Include="Visualization\IVisualization.h" />
+    <ClInclude Include="Visualization\SVG\SVGBrush.h" />
+    <ClInclude Include="Visualization\SVG\SVGCanvas.h" />
+    <ClInclude Include="Visualization\SVG\SVGRenderer.h" />
+    <ClInclude Include="Visualization\SvgVisualization.h" />
+    <ClInclude Include="Visualization\VisualizationFactory.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

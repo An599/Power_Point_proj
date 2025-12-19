@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Application",
+    "\\Controller",
+    "\\GUI",
+    "\\Model",
+    "\\Painting",
+    "\\Serialization",
+    "\\Viewer",
+    "\\Visualization",
+    "\\Visualization\\SVG"
+  ],
+  "SelectedNode": "\\Painting\\SVGPainter.h",
+  "PreviewInSolutionExplorer": false
+}

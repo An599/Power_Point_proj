@@ -1,14 +1,18 @@
 #pragma once
-#include "Controller/Parser.h"
-#include "Controller/CommandRegistry.h"
-#include "Controller/CommandFactories.h"
-#include "Model/Model.h"
-#include "Viewer/View.h"
+#include "Parser.h"
+#include "CommandRegistry.h"
+#include "CommandFactories.h"
+#include "RenderCommand.h"
+#include "CommandHistory.h"
+#include "../Model/Model.h"
+#include "../Viewer/View.h"
 #include <memory>
 
 namespace Controller {
 
-    // Controller knows about both Model and View
+    // Controller - cohesive orchestrator
+    // Decoupled from specific command implementations via registry
+    // Sufficient - provides complete command processing pipeline
     class Controller {
     private:
         Parser parser_;
@@ -17,8 +21,8 @@ namespace Controller {
             registerAllCommands();
         }
 
-        Controller(const Controller&) = delete;
-        Controller& operator=(const Controller&) = delete;
+        Controller(const Controller&);
+        Controller& operator=(const Controller&);
 
     public:
         static Controller& getInstance() {
@@ -26,24 +30,32 @@ namespace Controller {
             return instance;
         }
 
+        // Completeness - registers all available commands including render
         void registerAllCommands() {
             auto& registry = CommandRegistry::getInstance();
 
-            registry.registerCommand(std::make_unique<CreatePresentationFactory>());
-            registry.registerCommand(std::make_unique<LoadPresentationFactory>());
-            registry.registerCommand(std::make_unique<SavePresentationFactory>());
-            registry.registerCommand(std::make_unique<AddSlideFactory>());
-            registry.registerCommand(std::make_unique<RemoveSlideFactory>());
-            registry.registerCommand(std::make_unique<AddShapeFactory>());
-            registry.registerCommand(std::make_unique<ShowFactory>());
-            registry.registerCommand(std::make_unique<HelpFactory>());
-            registry.registerCommand(std::make_unique<ExitFactory>());
+            registry.registerCommand(std::unique_ptr<ICommandFactory>(new CreatePresentationFactory()));
+            registry.registerCommand(std::unique_ptr<ICommandFactory>(new LoadPresentationFactory()));
+            registry.registerCommand(std::unique_ptr<ICommandFactory>(new SavePresentationFactory()));
+            registry.registerCommand(std::unique_ptr<ICommandFactory>(new AddSlideFactory()));
+            registry.registerCommand(std::unique_ptr<ICommandFactory>(new RemoveSlideFactory()));
+            registry.registerCommand(std::unique_ptr<ICommandFactory>(new DuplicateSlideFactory()));
+            registry.registerCommand(std::unique_ptr<ICommandFactory>(new MoveSlideFactory()));
+            registry.registerCommand(std::unique_ptr<ICommandFactory>(new AddShapeFactory()));
+            registry.registerCommand(std::unique_ptr<ICommandFactory>(new AddTextFactory()));
+            registry.registerCommand(std::unique_ptr<ICommandFactory>(new ShowFactory()));
+            registry.registerCommand(std::unique_ptr<ICommandFactory>(new RenderFactory()));  // ? New!
+            registry.registerCommand(std::unique_ptr<ICommandFactory>(new UndoFactory()));
+            registry.registerCommand(std::unique_ptr<ICommandFactory>(new RedoFactory()));
+            registry.registerCommand(std::unique_ptr<ICommandFactory>(new HelpFactory()));
+            registry.registerCommand(std::unique_ptr<ICommandFactory>(new ExitFactory()));
         }
 
         void processInput(const std::string& input) {
             auto& view = View::ViewFacade::getInstance();
+            auto& history = CommandHistory::getInstance();
 
-            // Parser does syntax analysis
+            // Parser does syntax analysis (primitive responsibility)
             Parser::ParseResult parseResult = parser_.parse(input);
 
             if (!parseResult.syntaxValid) {
@@ -58,22 +70,33 @@ namespace Controller {
             // Get command name
             const std::string& commandName = parseResult.tokens[0];
 
-            // Get factory from registry
+            // Get factory from registry (decoupled lookup)
             auto& registry = CommandRegistry::getInstance();
             ICommandFactory* factory = registry.getFactory(commandName);
 
-            if (factory == nullptr) {
+            if (factory == 0) {
                 view.showWarning("Unknown command: " + commandName);
                 return;
             }
 
-            // Factory creates the command
+            // Factory creates the command (decoupled creation)
             try {
                 std::unique_ptr<ICommand> command = factory->createCommand(parseResult.tokens);
 
-                if (command) {
-                    // Execute command
-                    command->execute();
+                if (command.get()) {
+                    // Use history for undoable commands, direct execution for others
+                    if (commandName == "undo" || commandName == "redo" ||
+                        commandName == "help" || commandName == "show" ||
+                        commandName == "exit" || commandName == "create_presentation" ||
+                        commandName == "load_presentation" || commandName == "save_presentation" ||
+                        commandName == "render") {  // ? Render is not undoable
+                        // Non-undoable commands execute directly
+                        command->execute();
+                    }
+                    else {
+                        // Undoable commands go through history
+                        history.executeCommand(std::move(command));
+                    }
                 }
             }
             catch (const std::exception& e) {
