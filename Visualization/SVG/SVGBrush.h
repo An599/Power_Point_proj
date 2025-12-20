@@ -4,10 +4,6 @@
 
 namespace Visualization {
     namespace SVG {
-
-        // SVGBrush - Concrete implementation for SVG rendering
-        // Cohesive - stores all SVG-specific style properties
-        // Primitive - just data storage, no complex logic
         class SVGBrush : public IBrush {
         private:
             std::string strokeColor_;
@@ -35,7 +31,6 @@ namespace Visualization {
                 fontSize_(fontSize) {
             }
 
-            // Sufficient interface implementation
             std::string getStrokeColor() const { return strokeColor_; }
             std::string getFillColor() const { return fillColor_; }
             int getStrokeWidth() const { return strokeWidth_; }
@@ -44,7 +39,6 @@ namespace Visualization {
             std::string getFontFamily() const { return fontFamily_; }
             int getFontSize() const { return fontSize_; }
 
-            // SVG-specific utility (completeness)
             std::string toSVGStyle() const {
                 std::string style = "stroke:" + strokeColor_ + ";";
                 style += "fill:" + fillColor_ + ";";
