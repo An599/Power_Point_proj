@@ -21,11 +21,9 @@ namespace Model {
         void addSlide(std::unique_ptr<Slide> slide, size_t position = static_cast<size_t>(-1)) {
             size_t defaultPos = static_cast<size_t>(-1);
             if (position == defaultPos) {
-                // Default: add at the end
                 slides_.push_back(std::move(slide));
             }
             else if (position > slides_.size()) {
-                // Invalid position: warn and add at the end
                 std::cout << "[WARNING] Given invalid position. Slide added at the end of presentation. You can use -remove_slide to delete it" << std::endl;
                 slides_.push_back(std::move(slide));
             }
