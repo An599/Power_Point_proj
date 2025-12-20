@@ -47,7 +47,6 @@ namespace Controller {
             auto& view = View::ViewFacade::getInstance();
 
             try {
-                // Use JSON deserialize
                 Serialization::JsonDeserialize loader;
                 std::unique_ptr<Model::Presentation> pres = loader.load(filepath_);
                 model.setPresentation(std::move(pres));
@@ -80,7 +79,6 @@ namespace Controller {
             }
 
             try {
-                // Use JSON serialize
                 Serialization::JsonSerialize saver;
                 saver.save(*model.getPresentation(), filename_);
                 view.showSuccess("Presentation saved to '" + filename_ + "'");
@@ -116,23 +114,16 @@ namespace Controller {
                 executed_ = false;
                 return;
             }
-
-            // Create slide and action
             std::unique_ptr<Model::Slide> slide = std::make_unique<Model::Slide>();
             std::unique_ptr<Application::IAction> action = 
                 std::make_unique<Application::AddSlideAction>(std::move(slide), position_, hasPosition_);
-
-            // Execute action through Editor
             app.getEditor().doAction(std::move(action), model.getPresentation());
 
             view.showSuccess("Added slide");
             executed_ = true;
         }
 
-        void undo() override {
-            // Undo is handled by Editor, not directly by command
-            // This method is kept for compatibility but undo should be done through Editor
-        }
+        void undo() override {}
 
         bool isUndoable() const override { return executed_; }
     };
@@ -159,11 +150,8 @@ namespace Controller {
             }
 
             try {
-                // Create remove action
                 std::unique_ptr<Application::IAction> action = 
                     std::make_unique<Application::RemoveSlideAction>(position_);
-
-                // Execute action through Editor
                 app.getEditor().doAction(std::move(action), model.getPresentation());
 
                 view.showSuccess("Removed slide at position " +
@@ -176,10 +164,7 @@ namespace Controller {
             }
         }
 
-        void undo() override {
-            // Undo is handled by Editor, not directly by command
-            // This method is kept for compatibility but undo should be done through Editor
-        }
+        void undo() override {}
 
         bool isUndoable() const override { return executed_; }
     };
@@ -247,11 +232,8 @@ namespace Controller {
             }
 
             if (shape.get()) {
-                // Create action and execute through Editor
                 std::unique_ptr<Application::IAction> action =
                     std::make_unique<Application::AddShapeAction>(slideIndex_, std::move(shape), toFront_);
-
-                // Execute action through Editor
                 app.getEditor().doAction(std::move(action), model.getPresentation());
 
                 view.showSuccess("Added " + shapeType_ + " to slide " +
@@ -260,9 +242,7 @@ namespace Controller {
             }
         }
 
-        void undo() override {
-            // Undo is handled by Editor, not directly by command
-        }
+        void undo() override {}
 
         bool isUndoable() const override { return executed_; }
     };
@@ -297,17 +277,13 @@ namespace Controller {
                 executed_ = false;
                 return;
             }
-
-            // Create text shape (rectangle with invisible border, only text visible)
             Model::BoundingBox bounds(x_, y_, width_, height_);
             std::unique_ptr<Model::IShape> shape = std::make_unique<Model::TextShape>(bounds, text_, color_);
 
             if (shape.get()) {
-                // Create action and execute through Editor
                 std::unique_ptr<Application::IAction> action =
                     std::make_unique<Application::AddShapeAction>(slideIndex_, std::move(shape), toFront_);
 
-                // Execute action through Editor
                 app.getEditor().doAction(std::move(action), model.getPresentation());
 
                 view.showSuccess("Added text to slide " +
@@ -316,9 +292,7 @@ namespace Controller {
             }
         }
 
-        void undo() override {
-            // Undo is handled by Editor
-        }
+        void undo() override {}
 
         bool isUndoable() const override { return executed_; }
     };
@@ -340,8 +314,6 @@ namespace Controller {
             for (size_t i = 0; i < pres->slideCount(); ++i) {
                 const Model::Slide* slide = pres->getSlide(i);
                 std::vector<std::string> shapes;
-
-                // Get shapes in Z-order
                 std::vector<Model::IShape*> sortedShapes = slide->getShapesByZOrder();
                 for (size_t j = 0; j < sortedShapes.size(); ++j) {
                     shapes.push_back(sortedShapes[j]->getDescription());
@@ -401,12 +373,8 @@ namespace Controller {
                 // Clone the slide
                 Model::Slide* sourceSlide = model.getPresentation()->getSlide(sourcePosition_);
                 std::unique_ptr<Model::Slide> clonedSlide = sourceSlide->clone();
-
-                // Create action to add the cloned slide (at end by default)
                 std::unique_ptr<Application::IAction> action =
                     std::make_unique<Application::AddSlideAction>(std::move(clonedSlide));
-
-                // Execute action through Editor
                 app.getEditor().doAction(std::move(action), model.getPresentation());
 
                 view.showSuccess("Duplicated slide from position " +
@@ -419,9 +387,7 @@ namespace Controller {
             }
         }
 
-        void undo() override {
-            // Undo is handled by Editor
-        }
+        void undo() override {}
 
         bool isUndoable() const override { return executed_; }
     };
@@ -454,37 +420,21 @@ namespace Controller {
                     executed_ = false;
                     return;
                 }
-
-                // Validate toPosition
                 if (toPosition_ > slideCount) {
                     view.showError("Target position out of range");
                     executed_ = false;
                     return;
                 }
-
-                // Calculate adjusted position for adding
-                // If moving forward (from < to), we need to account for the removal
                 size_t adjustedToPosition = toPosition_;
                 if (fromPosition_ < toPosition_) {
                     adjustedToPosition = toPosition_ - 1; // Adjust because we remove first
                 }
-                // If moving backward (from > to), position stays the same
-
-                // Clone the slide first (before any modifications)
                 Model::Slide* sourceSlide = model.getPresentation()->getSlide(fromPosition_);
                 std::unique_ptr<Model::Slide> clonedSlide = sourceSlide->clone();
-
-                // Create composite action for move (remove + add)
                 auto compositeAction = std::make_unique<Application::CompositeAction>();
-                
-                // First action: remove from original position
                 compositeAction->addAction(std::make_unique<Application::RemoveSlideAction>(fromPosition_));
-                
-                // Second action: add at new position
                 compositeAction->addAction(
                     std::make_unique<Application::AddSlideAction>(std::move(clonedSlide), adjustedToPosition, true));
-
-                // Execute composite action through Editor
                 app.getEditor().doAction(std::move(compositeAction), model.getPresentation());
 
                 view.showSuccess("Moved slide from position " +
@@ -498,9 +448,7 @@ namespace Controller {
             }
         }
 
-        void undo() override {
-            // Undo is handled by Editor
-        }
+        void undo() override { }
 
         bool isUndoable() const override { return executed_; }
     };
@@ -528,4 +476,4 @@ namespace Controller {
         bool isUndoable() const override { return false; }
     };
 
-} // namespace Controller
+} 
