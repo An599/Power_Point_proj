@@ -5,8 +5,6 @@
 #include "../Model/Model.h"
 
 namespace Controller {
-
-    // Implementation of Undo/Redo commands (uses Editor)
     inline void UndoCommand::execute() {
         auto& app = Application::Application::getInstance();
         auto& model = Model::Model::getInstance();
@@ -43,4 +41,4 @@ namespace Controller {
         }
     }
 
-} // namespace Controller
+} 
