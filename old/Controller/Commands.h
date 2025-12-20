@@ -14,7 +14,6 @@
 #include <vector>
 
 namespace Controller {
-
     class CreatePresentationCommand : public ICommand {
         std::string title_;
 
@@ -159,11 +158,9 @@ namespace Controller {
             }
 
             try {
-                // Create remove action
                 std::unique_ptr<Application::IAction> action = 
                     std::make_unique<Application::RemoveSlideAction>(position_);
 
-                // Execute action through Editor
                 app.getEditor().doAction(std::move(action), model.getPresentation());
 
                 view.showSuccess("Removed slide at position " +
@@ -528,4 +525,4 @@ namespace Controller {
         bool isUndoable() const override { return false; }
     };
 
-} // namespace Controller
+} 

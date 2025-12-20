@@ -3,13 +3,10 @@
 #include <memory>
 
 namespace Model {
-
     class Model {
     private:
         std::unique_ptr<Presentation> presentation_;
-
         Model() : presentation_(nullptr) {}
-
         Model(const Model&) = delete;
         Model& operator=(const Model&) = delete;
 
@@ -40,4 +37,4 @@ namespace Model {
         }
     };
 
-} 
+}

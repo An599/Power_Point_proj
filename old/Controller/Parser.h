@@ -4,7 +4,6 @@
 #include <cctype>
 
 namespace Controller {
-
     class Parser {
     public:
         enum class State {
@@ -39,7 +38,6 @@ namespace Controller {
                 result.errorMessage = "No tokens found";
                 return result;
             }
-
             State currentState = State::START;
 
             for (size_t i = 0; i < tokens.size(); ++i) {
@@ -91,7 +89,6 @@ namespace Controller {
                     break;
                 }
             }
-
             result.syntaxValid = true;
             result.tokens = tokens;
 
@@ -136,4 +133,4 @@ namespace Controller {
         }
     };
 
-} 
+}

@@ -98,4 +98,4 @@ namespace Model {
         void setTitle(const std::string& title) { title_ = title; }
     };
 
-} 
+}
