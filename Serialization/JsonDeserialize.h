@@ -6,8 +6,6 @@
 #include <sstream>
 
 namespace Serialization {
-
-    // JsonDeserialize - JSON implementation of IDeserialize
     class JsonDeserialize : public IDeserialize {
     public:
         std::unique_ptr<Model::Presentation> load(const std::string& filename) const override {
@@ -15,16 +13,11 @@ namespace Serialization {
             if (!in) {
                 throw std::runtime_error("Cannot open file for reading: " + filename);
             }
-
-            // Read entire file
             std::string content((std::istreambuf_iterator<char>(in)),
                                std::istreambuf_iterator<char>());
 
-            // Simple JSON parsing (simplified - in production would use a proper JSON library)
             std::string title = extractString(content, "\"title\"");
             auto presentation = std::make_unique<Model::Presentation>(title);
-
-            // Parse slides
             size_t slidesStart = content.find("\"slides\"");
             if (slidesStart != std::string::npos) {
                 parseSlides(content, slidesStart, *presentation);
@@ -43,19 +36,18 @@ namespace Serialization {
 
             pos = json.find('"', pos);
             if (pos == std::string::npos) return "";
-            pos++; // Skip opening quote
+            pos++; 
 
             size_t end = pos;
             while (end < json.length() && (json[end] != '"' || (end > 0 && json[end-1] == '\\'))) {
                 if (json[end] == '\\' && end + 1 < json.length()) {
-                    end += 2; // Skip escaped character
+                    end += 2; 
                 } else {
                     end++;
                 }
             }
 
             std::string result = json.substr(pos, end - pos);
-            // Unescape JSON
             std::ostringstream oss;
             for (size_t i = 0; i < result.length(); ++i) {
                 if (result[i] == '\\' && i + 1 < result.length()) {
@@ -75,7 +67,6 @@ namespace Serialization {
         }
 
         void parseSlides(const std::string& json, size_t startPos, Model::Presentation& presentation) const {
-            // Find opening bracket
             size_t bracketPos = json.find('[', startPos);
             if (bracketPos == std::string::npos) return;
 
@@ -88,11 +79,9 @@ namespace Serialization {
                 else if (json[pos] == ']' || json[pos] == '}') depth--;
 
                 if (depth == 1 && json[pos] == '}') {
-                    // Found end of a slide object
                     std::string slideJson = json.substr(slideStart, pos - slideStart + 1);
                     parseSlide(slideJson, presentation);
                     slideStart = pos + 1;
-                    // Skip comma if present
                     while (slideStart < json.length() && (json[slideStart] == ',' || json[slideStart] == ' ' || json[slideStart] == '\n')) {
                         slideStart++;
                     }
@@ -103,8 +92,6 @@ namespace Serialization {
 
         void parseSlide(const std::string& slideJson, Model::Presentation& presentation) const {
             auto slide = std::make_unique<Model::Slide>();
-
-            // Parse shapes
             size_t shapesStart = slideJson.find("\"shapes\"");
             if (shapesStart != std::string::npos) {
                 parseShapes(slideJson, shapesStart, *slide);
@@ -126,11 +113,9 @@ namespace Serialization {
                 else if (json[pos] == ']' || json[pos] == '}') depth--;
 
                 if (depth == 1 && json[pos] == '}') {
-                    // Found end of a shape object
                     std::string shapeJson = json.substr(shapeStart, pos - shapeStart + 1);
                     parseShape(shapeJson, slide);
                     shapeStart = pos + 1;
-                    // Skip comma if present
                     while (shapeStart < json.length() && (json[shapeStart] == ',' || json[shapeStart] == ' ' || json[shapeStart] == '\n')) {
                         shapeStart++;
                     }
@@ -187,7 +172,6 @@ namespace Serialization {
             pos = json.find(':', pos);
             if (pos == std::string::npos) return 0;
 
-            // Skip whitespace
             while (pos < json.length() && (json[pos] == ' ' || json[pos] == ':')) pos++;
 
             size_t end = pos;
@@ -198,5 +182,5 @@ namespace Serialization {
         }
     };
 
-} // namespace Serialization
+} 
 
