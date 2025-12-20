@@ -2,10 +2,6 @@
 #include <string>
 
 namespace Painting {
-
-    // Pen - defines line drawing style
-    // Cohesive - encapsulates pen properties only
-    // Primitive - simple data holder
     class Pen {
     public:
         enum class Type {
@@ -33,4 +29,4 @@ namespace Painting {
         void setType(Type type) { type_ = type; }
     };
 
-} // namespace Painting
+} 
