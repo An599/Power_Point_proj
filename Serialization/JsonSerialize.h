@@ -6,7 +6,6 @@
 
 namespace Serialization {
 
-    // JsonSerialize - JSON implementation of ISerialize
     class JsonSerialize : public ISerialize {
     public:
         void save(const Model::Presentation& presentation, const std::string& filename) const override {
@@ -87,5 +86,4 @@ namespace Serialization {
         }
     };
 
-} // namespace Serialization
-
+} 
