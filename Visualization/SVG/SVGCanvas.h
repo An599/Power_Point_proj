@@ -34,7 +34,6 @@ namespace Visualization {
             void drawRectangle(int x, int y, int width, int height, const IBrush& brush) {
                 if (!isDrawing_) return;
 
-                // Dynamic cast to get SVG-specific functionality (safe downcast)
                 const SVGBrush* svgBrush = dynamic_cast<const SVGBrush*>(&brush);
                 std::string style = svgBrush ? svgBrush->toSVGStyle() : getDefaultStyle(brush);
 
@@ -117,7 +116,6 @@ namespace Visualization {
             }
 
         private:
-            // Fallback for non-SVGBrush implementations
             std::string getDefaultStyle(const IBrush& brush) const {
                 std::string style = "stroke:" + brush.getStrokeColor() + ";";
                 style += "fill:" + brush.getFillColor() + ";";
@@ -126,7 +124,6 @@ namespace Visualization {
                 return style;
             }
 
-            // XML escaping for text content
             std::string escapeXML(const std::string& text) const {
                 std::string result;
                 for (size_t i = 0; i < text.length(); ++i) {
