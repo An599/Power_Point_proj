@@ -10,8 +10,6 @@
 
 namespace Controller {
 
-    // RenderCommand - renders presentation using visitor pattern
-    // Shapes are drawn in Z-order (back to front)
     class RenderCommand : public ICommand {
         std::string outputPath_;
         int slideIndex_;
@@ -36,8 +34,6 @@ namespace Controller {
                 view.showError("Presentation has no slides. Add slides first.");
                 return;
             }
-
-            // Determine which slides to render
             size_t startSlide = 0;
             size_t endSlide = pres->slideCount();
 
@@ -49,46 +45,28 @@ namespace Controller {
                 startSlide = static_cast<size_t>(slideIndex_);
                 endSlide = startSlide + 1;
             }
-
-            // Calculate canvas height
             int slideHeight = 250;
             int canvasHeight = 100 + static_cast<int>((endSlide - startSlide) * slideHeight);
             if (canvasHeight < 600) canvasHeight = 600;
             if (canvasHeight > 4000) canvasHeight = 4000;
-
-            // Create SVG canvas
             Painting::SVGCanvas canvas(800, canvasHeight);
             Painting::SVGPainter& painter = canvas.getPainter();
 
             canvas.beginDrawing();
-
-            // Left margin (tab = 4 spaces ≈ 60 pixels for consistency)
             const int leftMargin = 60;
-            
-            // Draw presentation title with proper left margin
             painter.drawTextLeft(leftMargin, 40, pres->title(), "Arial", 24, "black");
-            
-            // Draw separator line below title (with margins)
             Painting::Pen titleSeparatorPen("gray", 2, Painting::Pen::Type::SOLID);
             painter.drawLine(leftMargin, 60, 800 - leftMargin, 60, titleSeparatorPen);
-
-            // Render each slide with more spacing
             int yOffset = 90;
             for (size_t i = startSlide; i < endSlide; ++i) {
                 const Model::Slide* slide = pres->getSlide(i);
-
-                // Draw slide separator (with margins)
                 if (i > startSlide) {
                     Painting::Pen separatorPen("lightgray", 1, Painting::Pen::Type::DASHED);
                     painter.drawLine(leftMargin, yOffset - 10, 800 - leftMargin, yOffset - 10, separatorPen);
                 }
-
-                // Draw slide number (left-aligned with proper margin)
                 std::string slideTitle = "Slide " + std::to_string(static_cast<long long>(i));
                 painter.drawTextLeft(leftMargin, yOffset, slideTitle, "Arial", 18, "blue");
                 yOffset += 30;
-
-                // Draw slide background area (starts at leftMargin to maintain proper indentation)
                 int slideX = leftMargin;
                 int slideY = yOffset;
                 int slideWidth = 800 - 2 * leftMargin;
@@ -98,16 +76,12 @@ namespace Controller {
                 int bgXPoints[4] = { slideX, slideX + slideWidth, slideX + slideWidth, slideX };
                 int bgYPoints[4] = { slideY, slideY, slideY + slideHeightArea, slideY + slideHeightArea };
                 painter.drawPolygon(bgXPoints, bgYPoints, 4, bgPen, bgBrush);
-
-                // Add padding inside slide area to prevent text/shapes from being cut off
-                // Use larger padding to account for text-anchor="middle" which extends text on both sides
                 int padding = 20;
                 int contentX = slideX + padding;
                 int contentY = slideY + padding;
                 int contentWidth = slideWidth - 2 * padding;
                 int contentHeight = slideHeightArea - 2 * padding;
 
-                // Get shapes sorted by Z-order
                 std::vector<Model::IShape*> sortedShapes = slide->getShapesByZOrder();
 
                 if (sortedShapes.empty()) {
@@ -118,10 +92,8 @@ namespace Controller {
                     yOffset += 30;
                 }
                 else {
-                    // Create transformed painter that offsets shapes into slide area with padding
                     Painting::TransformedPainter transformedPainter(painter, contentX, contentY);
                     
-                    // Draw each shape in Z-order (back to front)
                     for (size_t j = 0; j < sortedShapes.size(); ++j) {
                         sortedShapes[j]->draw(transformedPainter);
                     }
@@ -133,7 +105,6 @@ namespace Controller {
 
             canvas.endDrawing();
 
-            // Write to file
             std::string svg = canvas.getOutput();
             std::ofstream file(outputPath_.c_str());
             if (!file) {
@@ -160,11 +131,9 @@ namespace Controller {
         bool isUndoable() const override { return false; }
     };
 
-    // Factory for render command
     class RenderFactory : public ICommandFactory {
     public:
         std::unique_ptr<ICommand> createCommand(const std::vector<std::string>& args) override {
-            // Default output path if not provided
             std::string outputPath = "output.svg";
             if (args.size() >= 2 && !args[1].empty()) {
                 outputPath = args[1];
@@ -187,4 +156,4 @@ namespace Controller {
         }
     };
 
-} // namespace Controller
+} 
