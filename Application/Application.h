@@ -2,9 +2,6 @@
 #include "Editor.h"
 
 namespace Application {
-
-    // Application class - holds Editor instance
-    // Part of Application layer, coordinates between Model, View, and Controller
     class Application {
     private:
         Editor editor_;
@@ -28,5 +25,5 @@ namespace Application {
         }
     };
 
-} // namespace Application
+} 
 
