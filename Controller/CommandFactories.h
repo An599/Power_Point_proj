@@ -54,7 +54,6 @@ namespace Controller {
     class SavePresentationFactory : public ICommandFactory {
     public:
         std::unique_ptr<ICommand> createCommand(const std::vector<std::string>& args) override {
-            // Default filename if not provided
             std::string filename = "presentation.json";
             if (args.size() >= 2 && !args[1].empty()) {
                 filename = args[1];
