@@ -6,10 +6,6 @@
 #include <string>
 
 namespace Visualization {
-
-    // Abstract Factory for creating visualization components
-    // Decouples client code from concrete implementations
-    // Allows easy switching between rendering backends (SVG, GUI, etc.)
     class IVisualizationFactory {
     public:
         virtual ~IVisualizationFactory() {}
@@ -21,4 +17,4 @@ namespace Visualization {
             int strokeWidth = 1) const = 0;
     };
 
-} // namespace Visualization
+}
