@@ -4,9 +4,6 @@
 #include <string>
 
 namespace Painting {
-
-    // SVGCanvas - concrete canvas (no interface)
-    // Cohesive - owns SVGPainter and manages canvas lifecycle
     class SVGCanvas {
     private:
         std::unique_ptr<SVGPainter> painter_;
@@ -15,8 +12,6 @@ namespace Painting {
         explicit SVGCanvas(int width = 800, int height = 600)
             : painter_(new SVGPainter(width, height)) {
         }
-
-        // Access to painter
         SVGPainter& getPainter() {
             return *painter_;
         }
@@ -24,8 +19,6 @@ namespace Painting {
         const SVGPainter& getPainter() const {
             return *painter_;
         }
-
-        // Convenience methods
         void beginDrawing() {
             painter_->beginPaint();
         }
@@ -47,4 +40,4 @@ namespace Painting {
         }
     };
 
-} // namespace Painting
+} 
