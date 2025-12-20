@@ -4,8 +4,6 @@
 
 namespace Model {
 
-    // BoundingBox - primitive encapsulation of rectangular bounds
-    // Provides cohesive interface for shape dimensions
     class BoundingBox {
         int x_, y_, width_, height_;
 
@@ -19,7 +17,6 @@ namespace Model {
         int getWidth() const { return width_; }
         int getHeight() const { return height_; }
 
-        // Sufficiency - provides all needed information
         int getRight() const { return x_ + width_; }
         int getBottom() const { return y_ + height_; }
         int getCenterX() const { return x_ + width_ / 2; }
@@ -38,4 +35,4 @@ namespace Model {
         }
     };
 
-} // namespace Model
+}

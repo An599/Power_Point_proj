@@ -133,7 +133,6 @@
   <ItemGroup>
     <ClCompile Include="Controller\CommandUnRe.h" />
     <ClCompile Include="PP_Oct25.cpp" />
-    <ClCompile Include="Visualization\SVG\SVGFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\IAction.h" />
@@ -168,15 +167,8 @@
     <ClInclude Include="Serialization\JsonDeserialize.h" />
     <ClInclude Include="Serialization\JsonSerialize.h" />
     <ClInclude Include="Viewer\View.h" />
-    <ClInclude Include="Visualization\IBrush.h" />
-    <ClInclude Include="Visualization\ICanvas.h" />
-    <ClInclude Include="Visualization\IRenderer.h" />
     <ClInclude Include="Visualization\IVisualization.h" />
-    <ClInclude Include="Visualization\SVG\SVGBrush.h" />
-    <ClInclude Include="Visualization\SVG\SVGCanvas.h" />
-    <ClInclude Include="Visualization\SVG\SVGRenderer.h" />
     <ClInclude Include="Visualization\SvgVisualization.h" />
-    <ClInclude Include="Visualization\VisualizationFactory.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,9 +3,6 @@
 
 namespace Painting {
 
-    // Brush - defines fill style
-    // Cohesive - encapsulates brush properties only
-    // Primitive - simple data holder
     class Brush {
     public:
         enum class Style {
@@ -33,4 +30,4 @@ namespace Painting {
         void setOpacity(float opacity) { opacity_ = opacity; }
     };
 
-} // namespace Painting
+}

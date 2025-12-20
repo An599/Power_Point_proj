@@ -6,8 +6,6 @@
 
 namespace Painting {
 
-    // TransformedPainter - wrapper that applies coordinate transformation
-    // Used to offset shapes into slide areas
     class TransformedPainter : public IPainter {
     private:
         IPainter& basePainter_;
@@ -30,7 +28,7 @@ namespace Painting {
 
         void drawPolygon(const int* xPoints, const int* yPoints, int numPoints,
             const Pen& pen, const Brush& brush) override {
-            // Create transformed arrays
+
             std::vector<int> transformedX(numPoints);
             std::vector<int> transformedY(numPoints);
             for (int i = 0; i < numPoints; ++i) {
@@ -63,5 +61,4 @@ namespace Painting {
         }
     };
 
-} // namespace Painting
-
+}

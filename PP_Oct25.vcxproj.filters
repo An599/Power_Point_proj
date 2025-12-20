@@ -21,9 +21,6 @@
     <ClCompile Include="Controller\CommandUnRe.h">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Visualization\SVG\SVGFactory.h">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controller\CommandFactories.h">
@@ -93,27 +90,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Painting\Pen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Visualization\VisualizationFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Visualization\SVG\SVGCanvas.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Visualization\SVG\SVGRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Visualization\SVG\SVGBrush.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Visualization\IRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Visualization\ICanvas.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Visualization\IBrush.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Application\IAction.h">

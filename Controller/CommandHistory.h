@@ -32,10 +32,9 @@ namespace Controller {
             }
         }
 
-        // Undo last command
         bool undo() {
             if (currentIndex_ == 0) {
-                return false;  // Nothing to undo
+                return false;
             }
 
             currentIndex_--;
@@ -43,10 +42,9 @@ namespace Controller {
             return true;
         }
 
-        // Redo previously undone command
         bool redo() {
             if (currentIndex_ >= history_.size()) {
-                return false;  // Nothing to redo
+                return false;
             }
 
             history_[currentIndex_]->execute();
@@ -72,4 +70,4 @@ namespace Controller {
         }
     };
 
-} // namespace Controller
+}

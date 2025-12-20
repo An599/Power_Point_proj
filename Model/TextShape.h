@@ -8,7 +8,6 @@
 
 namespace Model {
 
-    // TextShape - rectangle with invisible border, only text is visible
     class TextShape : public IShape {
         BoundingBox bounds_;
         std::string text_;
@@ -36,12 +35,12 @@ namespace Model {
         }
 
         BoundingBox getBoundingBox() const override { return bounds_; }
-        std::string getColor() const override { return "none"; } // No visible border
-        std::string getFillColor() const override { return "none"; } // No fill
+        std::string getColor() const override { return "none"; }
+        std::string getFillColor() const override { return "none"; }
         std::string getText() const override { return text_; }
 
         void draw(Painting::IPainter& painter) const override {
-            // Don't draw the rectangle border, only draw text
+
             if (!text_.empty()) {
                 int textX = bounds_.getCenterX();
                 int textY = bounds_.getCenterY();
@@ -54,5 +53,4 @@ namespace Model {
         }
     };
 
-} // namespace Model
-
+}

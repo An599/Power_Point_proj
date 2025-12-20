@@ -6,7 +6,6 @@
 
 namespace Serialization {
 
-    // JsonSerialize - JSON implementation of ISerialize
     class JsonSerialize : public ISerialize {
     public:
         void save(const Model::Presentation& presentation, const std::string& filename) const override {
@@ -76,16 +75,15 @@ namespace Serialization {
             oss << "          \"height\": " << bounds.getHeight() << ",\n";
             oss << "          \"color\": \"" << escapeJson(shape->getColor()) << "\",\n";
             oss << "          \"fillColor\": \"" << escapeJson(shape->getFillColor()) << "\"";
-            
+
             std::string text = shape->getText();
             if (!text.empty()) {
                 oss << ",\n          \"text\": \"" << escapeJson(text) << "\"";
             }
-            
+
             oss << "\n        }";
             return oss.str();
         }
     };
 
-} // namespace Serialization
-
+}

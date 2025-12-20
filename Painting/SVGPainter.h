@@ -7,9 +7,6 @@
 
 namespace Painting {
 
-    // SVGPainter - concrete implementation working with strings
-    // Cohesive - manages SVG generation
-    // Decoupled - implements IPainter interface
     class SVGPainter : public IPainter {
     private:
         int width_;
@@ -23,13 +20,12 @@ namespace Painting {
         }
 
         void beginPaint() override {
-            content_.str("");  // Clear
+            content_.str("");
             content_ << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
             content_ << "<svg xmlns=\"http://www.w3.org/2000/svg\" ";
             content_ << "width=\"" << width_ << "\" height=\"" << height_ << "\" ";
-            content_ << "style=\"overflow: visible;\">\n";  // Allow content to be visible even if slightly outside
+            content_ << "style=\"overflow: visible;\">\n";
 
-            // Background
             content_ << "  <rect x=\"0\" y=\"0\" width=\"" << width_
                 << "\" height=\"" << height_
                 << "\" fill=\"white\" stroke=\"gray\" stroke-width=\"1\"/>\n";
@@ -67,7 +63,6 @@ namespace Painting {
             content_ << "  <ellipse cx=\"" << centerX << "\" cy=\"" << centerY
                 << "\" rx=\"" << radiusX << "\" ry=\"" << radiusY << "\" ";
 
-            // Brush (fill)
             if (brush.getStyle() == Brush::Style::NONE) {
                 content_ << "fill=\"none\" ";
             }
@@ -76,7 +71,6 @@ namespace Painting {
                 content_ << "fill-opacity=\"" << brush.getOpacity() << "\" ";
             }
 
-            // Pen (stroke)
             content_ << "stroke=\"" << pen.getColor() << "\" ";
             content_ << "stroke-width=\"" << pen.getWidth() << "\" ";
 
@@ -101,7 +95,6 @@ namespace Painting {
             }
             content_ << "\" ";
 
-            // Brush (fill)
             if (brush.getStyle() == Brush::Style::NONE) {
                 content_ << "fill=\"none\" ";
             }
@@ -110,7 +103,6 @@ namespace Painting {
                 content_ << "fill-opacity=\"" << brush.getOpacity() << "\" ";
             }
 
-            // Pen (stroke)
             content_ << "stroke=\"" << pen.getColor() << "\" ";
             content_ << "stroke-width=\"" << pen.getWidth() << "\" ";
 
@@ -129,8 +121,6 @@ namespace Painting {
             const std::string& color) override {
             if (!isPainting_) return;
 
-            // Use text-anchor="middle" for horizontal centering and dominant-baseline="middle" for vertical centering
-            // This is good for text inside shapes (centered)
             content_ << "  <text x=\"" << x << "\" y=\"" << y << "\" ";
             content_ << "text-anchor=\"middle\" dominant-baseline=\"middle\" ";
             content_ << "font-family=\"" << fontFamily << "\" ";
@@ -139,14 +129,12 @@ namespace Painting {
             content_ << escapeXML(text);
             content_ << "</text>\n";
         }
-        
-        // Draw left-aligned text (for labels, titles, etc.)
+
         void drawTextLeft(int x, int y, const std::string& text,
             const std::string& fontFamily, int fontSize,
             const std::string& color) {
             if (!isPainting_) return;
 
-            // Use text-anchor="start" for left alignment and dominant-baseline="middle" for vertical centering
             content_ << "  <text x=\"" << x << "\" y=\"" << y << "\" ";
             content_ << "text-anchor=\"start\" dominant-baseline=\"middle\" ";
             content_ << "font-family=\"" << fontFamily << "\" ";
@@ -159,7 +147,6 @@ namespace Painting {
         int getWidth() const override { return width_; }
         int getHeight() const override { return height_; }
 
-        // Get SVG output as string
         std::string getSVG() const {
             return content_.str();
         }
@@ -182,4 +169,4 @@ namespace Painting {
         }
     };
 
-} // namespace Painting
+}
