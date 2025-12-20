@@ -6,10 +6,6 @@
 
 namespace Visualization {
     namespace SVG {
-
-        // Concrete factory for SVG visualization components
-        // Cohesive - creates all SVG-related objects
-        // Primitive - just creation, no complex logic
         class SVGFactory : public IVisualizationFactory {
         public:
             ICanvas* createCanvas(int width, int height) const {
