@@ -6,10 +6,6 @@
 
 namespace Visualization {
     namespace SVG {
-
-        // SVGCanvas - Concrete implementation for SVG output
-        // Cohesive - manages SVG document creation
-        // Decoupled - works with IBrush interface, not concrete SVGBrush
         class SVGCanvas : public ICanvas {
         private:
             int width_;
