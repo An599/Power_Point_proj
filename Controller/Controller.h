@@ -9,10 +9,6 @@
 #include <memory>
 
 namespace Controller {
-
-    // Controller - cohesive orchestrator
-    // Decoupled from specific command implementations via registry
-    // Sufficient - provides complete command processing pipeline
     class Controller {
     private:
         Parser parser_;
@@ -55,7 +51,6 @@ namespace Controller {
             auto& view = View::ViewFacade::getInstance();
             auto& history = CommandHistory::getInstance();
 
-            // Parser does syntax analysis (primitive responsibility)
             Parser::ParseResult parseResult = parser_.parse(input);
 
             if (!parseResult.syntaxValid) {
@@ -66,11 +61,8 @@ namespace Controller {
             if (parseResult.tokens.empty()) {
                 return;
             }
-
-            // Get command name
             const std::string& commandName = parseResult.tokens[0];
 
-            // Get factory from registry (decoupled lookup)
             auto& registry = CommandRegistry::getInstance();
             ICommandFactory* factory = registry.getFactory(commandName);
 
@@ -79,22 +71,18 @@ namespace Controller {
                 return;
             }
 
-            // Factory creates the command (decoupled creation)
             try {
                 std::unique_ptr<ICommand> command = factory->createCommand(parseResult.tokens);
 
                 if (command.get()) {
-                    // Use history for undoable commands, direct execution for others
                     if (commandName == "undo" || commandName == "redo" ||
                         commandName == "help" || commandName == "show" ||
                         commandName == "exit" || commandName == "create_presentation" ||
                         commandName == "load_presentation" || commandName == "save_presentation" ||
-                        commandName == "render") {  // ? Render is not undoable
-                        // Non-undoable commands execute directly
+                        commandName == "render") {
                         command->execute();
                     }
                     else {
-                        // Undoable commands go through history
                         history.executeCommand(std::move(command));
                     }
                 }
@@ -105,4 +93,4 @@ namespace Controller {
         }
     };
 
-} // namespace Controller
+} 

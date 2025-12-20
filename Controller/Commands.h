@@ -14,7 +14,6 @@
 #include <vector>
 
 namespace Controller {
-
     class CreatePresentationCommand : public ICommand {
         std::string title_;
 
@@ -528,4 +527,4 @@ namespace Controller {
         bool isUndoable() const override { return false; }
     };
 
-} // namespace Controller
+} 

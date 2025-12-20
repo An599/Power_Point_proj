@@ -5,7 +5,6 @@
 #include <string>
 
 namespace Controller {
-
     class ICommandFactory {
     public:
         virtual ~ICommandFactory() = default;

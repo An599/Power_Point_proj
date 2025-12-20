@@ -1,7 +1,7 @@
 #pragma once
 #include "IShape.h"
 #include <sstream>
-
+//logican poxelu em bounding boxov, bayc es pahin sa em karoxoacel stanal vorpes funkcional tarberak
 namespace Model {
 
     class Rectangle : public IShape {
@@ -106,4 +106,4 @@ namespace Model {
         }
     };
 
-} 
+}
