@@ -1,3 +1,4 @@
+//old  version now out of main codebase shapes are in Shape.h
 #pragma once
 #include "IShape.h"
 #include <sstream>
