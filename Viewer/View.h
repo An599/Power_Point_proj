@@ -119,8 +119,7 @@ namespace View {
 
         void showWelcome() const {
             std::cout << "===========================================\n";
-            std::cout << "   Mini PowerPoint CLI with Z-Order\n";
-            std::cout << "   Visitor Pattern | JSON Serialization\n";
+            std::cout << "            Mini PowerPoint /CLI/ \n";
             std::cout << "===========================================\n";
             std::cout << "Type 'help' for a list of commands.\n\n";
         }
