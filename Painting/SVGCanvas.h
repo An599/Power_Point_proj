@@ -1,5 +1,5 @@
 #pragma once
-#include "Painting/SVGPainter.h"
+#include "SVGPainter.h"
 #include <memory>
 #include <string>
 
