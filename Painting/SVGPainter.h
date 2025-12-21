@@ -1,7 +1,7 @@
 #pragma once
-#include "Painting/IPainter.h"
-#include "Painting/Pen.h"
-#include "Painting/Brush.h"
+#include "IPainter.h"
+#include "Pen.h"
+#include "Brush.h"
 #include <sstream>
 #include <string>
 
